@@ -15,10 +15,10 @@
             <h1>Social Circle</h1>
             <i class="fas fa-cog"></i>
         </div>
-        <div id="wallet-status-fixed" class="wallet-status">
+        <div id="wallet-status-fixed" class="wallet-status hidden">
             <div class="container">
                 <p><i class="fas fa-link"></i> Connected: <span id="wallet-address"></span></p>
-                <p><i class="fas fa-globe"></i> TRON Mainnet</p>
+                <p><i class="fas fa-globe"></i> <span id="network-name"></span></p>
                 <p><i class="fas fa-check-circle"></i> Status: <span id="participation-status"></span></p>
             </div>
         </div>
@@ -54,7 +54,7 @@
             <section class="card">
                 <h2><i class="fas fa-chart-pie"></i> CONTRIBUTION STATUS</h2>
                 <div class="card-content">
-                    <p>Required: 80 TRX</p>
+                    <p>Required: -- TRX</p>
                     <p id="contribution-status"></p>
                     <p id="contribution-time"></p>
                 </div>
@@ -75,16 +75,17 @@
                 <h2><i class="fas fa-bullseye"></i> ACTIONS</h2>
                 <div class="card-content">
                     <button class="btn btn-primary"><i class="fas fa-plus-circle"></i> JOIN SOCIAL CIRCLE</button>
-                    <button class="btn btn-secondary"><i class="fas fa-eye"></i> VIEW TRANSACTION</button>
+                    <a href="#" id="view-tx-link" class="btn btn-secondary hidden" target="_blank"><i class="fas fa-eye"></i> VIEW LAST TRANSACTION</a>
                     <button class="btn btn-text"><i class="fas fa-sync-alt"></i> REFRESH DATA</button>
+                    <p id="status-message" class="card-description"></p>
                 </div>
             </section>
 
             <section class="transparency-links">
                 <h2>TRANSPARENCY</h2>
                 <ul>
-                    <li><a href="#"><i class="fas fa-file-contract"></i> Contract: 0x1a2b...c3d4</a></li>
-                    <li><a href="#"><i class="fas fa-globe"></i> View on TronScan</a></li>
+                    <li><a id="contract-link" href="#"><i class="fas fa-file-contract"></i> Contract: <span id="contract-address"></span></a></li>
+                    <li><a id="tronscan-link" href="#"><i class="fas fa-globe"></i> View on TronScan</a></li>
                     <li><a href="#"><i class="fas fa-book"></i> Protocol Docs</a></li>
                     <li><a href="#"><i class="fas fa-exclamation-triangle"></i> Risk Disclosure</a></li>
                 </ul>
@@ -106,6 +107,8 @@
         <a href="#"><i class="fas fa-file-alt"></i> Terms</a>
     </nav>
 
+    <script src="https://cdn.jsdelivr.net/npm/tronweb@5.3.0/dist/TronWeb.js"></script>
+    <script src="abi.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
