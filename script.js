@@ -225,13 +225,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- INITIALIZATION ---
-    setTimeout(() => {
+    function initializeApp() {
         if (window.tronWeb && window.tronWeb.ready) {
             init();
         } else {
             showConnectWalletState();
         }
-    }, 500);
+    }
+
+    // Listen for the event that TronLink injects
+    window.addEventListener('tronweb#initialized', initializeApp);
+
+    // Fallback for cases where the event has already fired
+    setTimeout(initializeApp, 1000);
 
     setInterval(fetchData, 30000);
 });
