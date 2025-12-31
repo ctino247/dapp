@@ -67,9 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchStats = async () => {
          try {
-            const response = await fetch('/api/index.php/stats');
+            // Pass userAddress to get user-specific stats
+            const response = await fetch(`/api/index.php/stats?wallet_address=${userAddress}`);
             const data = await response.json();
             console.log('Stats response:', data);
+
+            if (response.ok) {
+                document.getElementById('total-users').textContent = data.total_users || '0';
+                document.getElementById('total-volume').textContent = `$${parseFloat(data.total_volume || 0).toFixed(2)}`;
+                document.getElementById('user-investment').textContent = `$${parseFloat(data.user_investment || 0).toFixed(2)}`;
+                document.getElementById('user-rewards').textContent = `$${parseFloat(data.user_rewards || 0).toFixed(2)}`;
+            } else {
+                 console.error('Failed to fetch stats:', data.error);
+            }
         } catch (error) {
             console.error('Error fetching stats:', error);
         }

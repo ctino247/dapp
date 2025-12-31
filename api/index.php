@@ -92,15 +92,41 @@ function handleUser($conn, $input) {
 }
 
 function getStats($conn) {
-    $result = $conn->query("SELECT COUNT(*) as total_users FROM users");
-    $users = $result->fetch_assoc();
+    // --- Global Stats ---
+    $result_users = $conn->query("SELECT COUNT(*) as total_users FROM users");
+    $users = $result_users->fetch_assoc();
 
-    $result = $conn->query("SELECT SUM(amount) as total_volume FROM transactions");
-    $volume = $result->fetch_assoc();
+    $result_volume = $conn->query("SELECT SUM(amount) as total_volume FROM transactions WHERE transaction_type = 'investment'");
+    $volume = $result_volume->fetch_assoc();
+
+    // --- User-Specific Stats ---
+    $user_investment = 0;
+    $user_rewards = 0;
+
+    if (isset($_GET['wallet_address'])) {
+        $wallet_address = $_GET['wallet_address'];
+
+        $stmt = $conn->prepare("
+            SELECT
+                (SELECT SUM(amount) FROM transactions t JOIN users u ON t.user_id = u.id WHERE u.wallet_address = ? AND t.transaction_type = 'investment') as user_investment,
+                (SELECT SUM(amount) FROM transactions t JOIN users u ON t.user_id = u.id WHERE u.wallet_address = ? AND t.transaction_type = 'reward') as user_rewards
+        ");
+        $stmt->bind_param("ss", $wallet_address, $wallet_address);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user_stats = $result->fetch_assoc();
+
+        $user_investment = $user_stats['user_investment'];
+        $user_rewards = $user_stats['user_rewards'];
+
+        $stmt->close();
+    }
 
     echo json_encode([
         'total_users' => (int)$users['total_users'],
-        'total_volume' => (float)($volume['total_volume'] ?? 0)
+        'total_volume' => (float)($volume['total_volume'] ?? 0),
+        'user_investment' => (float)($user_investment ?? 0),
+        'user_rewards' => (float)($user_rewards ?? 0)
     ]);
 }
 

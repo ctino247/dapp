@@ -13,8 +13,59 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="" />
     <meta name="twitter:image" content="" />
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 20px;
+      }
+      #stats-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .stat-card {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+        flex-basis: 200px;
+      }
+       .stat-card h4 {
+        margin-top: 0;
+        color: #666;
+      }
+      .stat-card p {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 0;
+        color: #333;
+      }
+    </style>
   </head>
   <body>
+    <div id="stats-container">
+      <div class="stat-card">
+        <h4>Total Users</h4>
+        <p id="total-users">-</p>
+      </div>
+      <div class="stat-card">
+        <h4>Total Volume</h4>
+        <p id="total-volume">-</p>
+      </div>
+      <div class="stat-card">
+        <h4>Your Investment</h4>
+        <p id="user-investment">-</p>
+      </div>
+       <div class="stat-card">
+        <h4>Your Rewards</h4>
+        <p id="user-rewards">-</p>
+      </div>
+    </div>
     <div id="root"></div>
     <script src="app.js"></script>
   </body>
